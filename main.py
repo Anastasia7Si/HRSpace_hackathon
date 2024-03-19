@@ -2,10 +2,10 @@ from fastapi import FastAPI
 
 import uvicorn
 
-from api_v1.app.views import get_profession_id
+from api_v1.app.views import router
 
 app = FastAPI()
-app.include_router(get_profession_id)
+app.include_router(router)
 
 
 if __name__ == '__main__':

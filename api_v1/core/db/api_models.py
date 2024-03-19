@@ -1,4 +1,4 @@
-from .db_helper import Base
+from api_v1.core.config import Base
 from sqlalchemy import Column, Integer, String, TIMESTAMP, Boolean, text
 
 

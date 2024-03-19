@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
 
-  izumrudny_gorod_app:
+  hrspace:
     container_name: hrspace
     build: ./
     restart: always
