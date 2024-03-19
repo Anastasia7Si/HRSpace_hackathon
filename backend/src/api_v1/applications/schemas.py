@@ -1,14 +1,16 @@
 from pydantic import BaseModel
+from typing import List, Optional
+from ..workplace.schemas import CityCreate
 
 
-class BaseApplication(BaseModel):
+class ApplicationDTO(BaseModel):
     title: str
-    is_published: bool
+    application_cities: list[CityCreate]
 
     class Config:
         orm_mode = True
 
 
-class CreateApplication(BaseApplication):
-    class Config:
-        orm_mode = True
+class ApplicationCreate(BaseModel):
+    title: str
+    city_ids: list[int]
