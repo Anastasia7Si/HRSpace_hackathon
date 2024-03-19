@@ -11,7 +11,7 @@ dnspython==2.6.1
 email_validator==2.1.1
 exceptiongroup==1.2.0
 fastapi==0.110.0
-fastapi-users==13.0.0
+fastapi-filter==1.1.0
 h11==0.14.0
 idna==3.6
 makefun==1.15.2
