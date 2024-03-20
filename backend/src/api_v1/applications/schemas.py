@@ -1,11 +1,15 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional
-from ..workplace.schemas import CityCreate
+from ..about_vacancy.schemas import CityCreate, TimezoneCreate
 
 
 class ApplicationDTO(BaseModel):
     title: str
-    application_cities: list[CityCreate]
+    city: CityCreate
+    relocation: bool
+    remote_work: bool
+    timezone_from: TimezoneCreate
+    timezone_to: TimezoneCreate
 
     class Config:
         orm_mode = True
@@ -13,4 +17,11 @@ class ApplicationDTO(BaseModel):
 
 class ApplicationCreate(BaseModel):
     title: str
-    city_ids: list[int]
+    city_id: int
+    relocation: bool = Field(default=False)
+    remote_work: bool = Field(default=False)
+    timezone_from_id: Optional[int]
+    timezone_to_id: Optional[int]
+
+    class Config:
+        orm_mode = True

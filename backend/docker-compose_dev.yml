@@ -7,8 +7,8 @@ services:
       - db
     volumes:
       - ./:/code:ro
-    environment:
-      - DATABASE_URL=postgresql://postgres:mysecretpassword@db:5432/fastapi
+#    environment:
+#      - DATABASE_URL=postgresql://postgres:mysecretpassword@db:5432/fastapi
     ports:
       - "8000:80"
 

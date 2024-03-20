@@ -1,12 +1,14 @@
 from .database import Base
 from sqlalchemy import Column, Integer, String, TIMESTAMP, Boolean, text, ForeignKey
-from sqlalchemy.orm import relationship, Mapped
+from sqlalchemy.orm import relationship
 
 
-class ApplicationsCitiesOrm(Base):
-    __tablename__ = "applications_cities"
-    application_id = Column(Integer, ForeignKey('Application.id'), primary_key=True)
-    city_id = Column(Integer, ForeignKey('City.id'), primary_key=True)
+# class ApplicationsCitiesOrm(Base):
+#     """Модель для связи ManyToMany."""
+#
+#     __tablename__ = "applications_cities"
+#     application_id = Column(Integer, ForeignKey('Application.id'), primary_key=True)
+#     city_id = Column(Integer, ForeignKey('City.id'), primary_key=True)
 
 
 # class ApplicationMetro(Base):
@@ -19,12 +21,17 @@ class ApplicationsCitiesOrm(Base):
 class CityOrm(Base):
     """Модель для списка Мест работы."""
 
-    __tablename__ = "City"
-    id = Column(Integer, primary_key=True, nullable=False)
-    region = Column(String, nullable=False)
-    city = Column(String, nullable=False)
-    city_applications: Mapped[list['ApplicationOrm']] = relationship(back_populates='application_cities', secondary='applications_cities')
+    __tablename__ = 'City'
+    id: int = Column(Integer, primary_key=True, nullable=False)
+    region: str = Column(String, nullable=False)
+    city: str = Column(String, nullable=False)
+    applications = relationship('ApplicationOrm', back_populates='city')
 
+
+class Timezone(Base):
+    __tablename__ = 'Timezone'
+    id: int = Column(Integer, primary_key=True, nullable=False)
+    title: str = Column(String, nullable=False)
 
 # class MetroOrm(Base):
 #     """Модель для списка Мест работы."""
@@ -62,18 +69,23 @@ class RecruiterResponsibilities(Base):
 class ApplicationOrm(Base):
     """Модель Заявки(вакансии)."""
 
-    __tablename__ = "Application"
-    id = Column(Integer, primary_key=True, nullable=False)
+    __tablename__ = 'Application'
+    id: int = Column(Integer, primary_key=True, nullable=False)
     # number_of_employees = Column(Integer, nullable=True)
     # payment_schema = Column(Integer, primary_key=True, nullable=False) # object of PaymentSchema
     # payment_amount = Column(Integer, nullable=False)
-    title = Column(String, nullable=True)
-    # date_of_first_resume = жедаемая дата получения первых резюме
-    # date_of_first_workday = желаемя дата выхода сотрудника на работу
+    title: str = Column(String, nullable=False)
     # number_of_recruiters = Column(Integer, nullable=True)
     # recruiter_responsibilities = Column(Integer, primary_key=True, nullable=False) # object of RecruiterResponsibilities model
     # profession = Column(String, primary_key=True, nullable=False) # foreign key, object of profession model
-    application_cities: Mapped[list['CityOrm']] = relationship(secondary='applications_cities', back_populates='city_applications') # many to many, object of city model
+    city_id: int = Column(Integer, ForeignKey('City.id'))
+    relocation: bool = Column(Boolean, nullable=False, default=False)
+    remote_work: bool = Column(Boolean, nullable=False, default=False)
+    timezone_from_id: int = Column(Integer, ForeignKey('Timezone.id'), nullable=True)
+    timezone_to_id: int = Column(Integer, ForeignKey('Timezone.id'), nullable=True)
+    timezone_from = relationship('Timezone', foreign_keys='[ApplicationOrm.timezone_from_id]')
+    timezone_to = relationship('Timezone', foreign_keys='[ApplicationOrm.timezone_to_id]')
+    city = relationship('CityOrm', back_populates='applications')
     # metro = relationship('MetroOrm', secondary=ApplicationMetro.__table__, backref='Metro')  # many to many, object of city model
     # salary = Column(Integer, nullable=True)
     # work_schedule = рабочий график, непонятен тип поля, но тоже объект какой-то модели

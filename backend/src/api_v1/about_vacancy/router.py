@@ -1,33 +1,14 @@
-from sqlalchemy import select
 from fastapi import Depends, status, Query
 from sqlalchemy.orm import Session
 from ... import models
 from . import schemas
 from fastapi import APIRouter
 from ...database import get_db
-from fastapi_filter.contrib.sqlalchemy import Filter
-from fastapi_filter import FilterDepends
-from typing import Optional, List
 
 router = APIRouter(
-    prefix='/workplace',
-    tags=['Workplace']
+    prefix='/vacancy',
+    tags=['Vacancy']
 )
-
-
-# class CityFilter(Filter):
-#
-#     class Constants(Filter.Constants):
-#         model = models.City
-#         search_model_fields = ["region", "city"]
-
-
-# @router.get('/city', response_model=None)
-# def get_city(db: Session = Depends(get_db))
-#
-#     city = db.query(models.CityOrm).all()
-#
-#     return city
 
 
 @router.get('/city', response_model=None)
@@ -51,6 +32,20 @@ def add_city(city_create: schemas.CityCreate, db: Session = Depends(get_db)):
     return new_city
 
 
+@router.get('/timezone', response_model=None)
+def get_city(db: Session = Depends(get_db)):
+    timezones = db.query(models.Timezone).all()
+    return timezones
+
+
+@router.post('/timezone', status_code=status.HTTP_201_CREATED, response_model=None)
+def add_city(timezone_create: schemas.TimezoneCreate, db: Session = Depends(get_db)):
+    new_timezone = models.Timezone(**timezone_create.dict())
+    db.add(new_timezone)
+    db.commit()
+    db.refresh(new_timezone)
+
+    return new_timezone
 # @router.get('/metro', response_model=None)
 # def get_metro(db: Session = Depends(get_db)):
 #     metro = db.query(models.MetroOrm).all()
