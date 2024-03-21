@@ -47,11 +47,11 @@ class Application(Base):
     # date_of_first_workday = желаемя дата выхода сотрудника на работу
     number_of_recruiters = Column(Integer, nullable=True)
     # recruiter_responsibilities = Column(Integer, primary_key=True, nullable=False) # object of RecruiterResponsibilities model
-    experience = Column(String, nullable=True) # поле для опыта работы
-    education = Column(String, nullable=True) # поле образование
-    description_emploey = Column(String, nullable=True) # поле для описания обязанностей сотрудника
-    employee_requirements = Column(String, nullable=True) # поля для описания требований к сотруднику
-    skills = Column(String, nullable=True) # поле ключевые навыки
+    # experience = Column(String, nullable=True) # поле для опыта работы
+    # education = Column(String, nullable=True) # поле образование
+    # description_emploey = Column(String, nullable=True) # поле для описания обязанностей сотрудника
+    # employee_requirements = Column(String, nullable=True) # поля для описания требований к сотруднику
+    # skills = Column(String, nullable=True) # поле ключевые навыки
 
     # profession = Column(String, primary_key=True, nullable=False) # foreign key, object of profession model
     # city = Column(String, nullable=True) # many to many, object of city model
