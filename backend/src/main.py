@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from .api_v1.applications import router as application_router
-from .api_v1.workplace import router as workplace_router
+from .api_v1.about_vacancy import router as workplace_router
 from . import models
 from .database import engine
 

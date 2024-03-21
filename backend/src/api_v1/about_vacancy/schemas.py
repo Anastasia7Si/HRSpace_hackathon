@@ -11,6 +11,14 @@ class CityCreate(BaseModel):
         orm_mode = True
 
 
+class TimezoneCreate(BaseModel):
+
+    title: str
+
+    class Config:
+        orm_mode = True
+
+
 # class Metro(BaseModel):
 #
 #     city: str
