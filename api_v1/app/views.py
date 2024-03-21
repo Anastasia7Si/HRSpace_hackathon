@@ -5,6 +5,7 @@ from api_v1.core.config import get_db
 from api_v1.app import crud
 from api_v1.app.schemas import ProfessionModel
 
+
 router = APIRouter(tags=["Profession"])
 
 
@@ -17,3 +18,8 @@ async def get_profession_id(id: int, db: Session = Depends(get_db)):
             detail=f"Product {result} not found!",
         )
     return result
+
+
+@router.post('/')
+async def create_professions(profession: ProfessionModel, db: Session = Depends(get_db)):
+    return await crud.create_profession(profession=profession, db=db)
