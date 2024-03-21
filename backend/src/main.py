@@ -4,6 +4,7 @@ from .api_v1.about_vacancy import router as workplace_router
 from . import models
 from .database import engine
 
+
 app = FastAPI(
     title='HRSpace',
     summary='A builder for finding recruiters',
