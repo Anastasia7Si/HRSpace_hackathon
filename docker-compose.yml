@@ -14,7 +14,7 @@ services:
         condition: service_healthy
   
   frontend:
-    image: hr-space-frontend:latest
+    image: anasti97/hr-space-frontend:latest
     command: cp -r /app/dist/. /frontend_static/
     ports:
       - 3000:3000
