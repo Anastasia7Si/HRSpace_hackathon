@@ -8,8 +8,8 @@ class ApplicationDTO(BaseModel):
     city: CityCreate
     relocation: bool
     remote_work: bool
-    timezone_from: TimezoneCreate
-    timezone_to: TimezoneCreate
+    timezone_from: Optional[TimezoneCreate]
+    timezone_to: Optional[TimezoneCreate]
 
     class Config:
         orm_mode = True
@@ -20,8 +20,8 @@ class ApplicationCreate(BaseModel):
     city_id: int
     relocation: bool = Field(default=False)
     remote_work: bool = Field(default=False)
-    timezone_from_id: Optional[int]
-    timezone_to_id: Optional[int]
+    timezone_from_id: Optional[int] = Field(default=None, allow_none=True)
+    timezone_to_id: Optional[int] = Field(default=None, allow_none=True)
 
     class Config:
         orm_mode = True
