@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+
 from typing import List, Optional
 from ..about_vacancy.schemas import CityCreate, TimezoneCreate, MetroGet
 

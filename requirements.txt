@@ -1,3 +1,4 @@
+dos2unix==1
 alembic==1.13.1
 annotated-types==0.6.0
 anyio==4.3.0
@@ -29,3 +30,4 @@ SQLAlchemy==2.0.28
 starlette==0.36.3
 typing_extensions==4.10.0
 uvicorn==0.28.0
+python-dotenv==1.0.0
