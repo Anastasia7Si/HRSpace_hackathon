@@ -17,14 +17,15 @@ def get_city(db: Session = Depends(get_db), search: str = Query(None, descriptio
     if search:
         query = query.filter(models.CityOrm.city.like(f"%{search}%"))
         # Здесь можно добавить другие поля модели для поиска по аналогии с Django
-
     cities = query.all()
+
     return cities
 
 
 @router.get('/citywithmetro', response_model=list[schemas.CityWithMetro])
 def get_city(db: Session = Depends(get_db)):
     cities = db.query(models.CityOrm).all()
+
     return cities
 
 
@@ -41,6 +42,7 @@ def add_city(city_create: schemas.CityCreate, db: Session = Depends(get_db)):
 @router.get('/timezone', response_model=None)
 def get_timezone(db: Session = Depends(get_db)):
     timezones = db.query(models.Timezone).all()
+
     return timezones
 
 
@@ -67,4 +69,5 @@ def add_metro(metro_create: schemas.MetroCreate, db: Session = Depends(get_db)):
     db.add(new_metro)
     db.commit()
     db.refresh(new_metro)
+
     return new_metro
