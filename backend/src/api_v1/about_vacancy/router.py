@@ -22,7 +22,7 @@ def get_city(db: Session = Depends(get_db), search: str = Query(None, descriptio
     return cities
 
 
-@router.get('/cityandmetro', response_model=list[schemas.CityWithMetro])
+@router.get('/citywithmetro', response_model=list[schemas.CityWithMetro])
 def get_city(db: Session = Depends(get_db)):
     cities = db.query(models.CityOrm).all()
     return cities
