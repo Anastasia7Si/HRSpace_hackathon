@@ -12,12 +12,11 @@ router = APIRouter(
 
 
 @router.get('/city', response_model=None)
-def get_city(db: Session = Depends(get_db), search: str = Query(None, description="Поисковый запрос")):
+def get_city(db: Session = Depends(get_db),
+             search: str = Query(None, description="Поисковый запрос")):
     query = db.query(models.CityOrm)
     if search:
         query = query.filter(models.CityOrm.city.like(f"%{search}%"))
-        # Здесь можно добавить другие поля модели для поиска по аналогии с Django
-
     cities = query.all()
     return cities
 
@@ -28,24 +27,27 @@ def add_city(city_create: schemas.CityCreate, db: Session = Depends(get_db)):
     db.add(new_city)
     db.commit()
     db.refresh(new_city)
-
     return new_city
 
 
 @router.get('/timezone', response_model=None)
-def get_city(db: Session = Depends(get_db)):
+def get_timezone(db: Session = Depends(get_db)):
     timezones = db.query(models.Timezone).all()
     return timezones
 
 
-@router.post('/timezone', status_code=status.HTTP_201_CREATED, response_model=None)
-def add_city(timezone_create: schemas.TimezoneCreate, db: Session = Depends(get_db)):
+@router.post('/timezone', status_code=status.HTTP_201_CREATED,
+             response_model=None)
+def add_timezone(timezone_create: schemas.TimezoneCreate,
+                 db: Session = Depends(get_db)):
     new_timezone = models.Timezone(**timezone_create.dict())
     db.add(new_timezone)
     db.commit()
     db.refresh(new_timezone)
 
     return new_timezone
+
+
 # @router.get('/metro', response_model=None)
 # def get_metro(db: Session = Depends(get_db)):
 #     metro = db.query(models.MetroOrm).all()
