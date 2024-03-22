@@ -6,13 +6,13 @@ from .schemas import ProfessionSchemas
 from ...database import get_db
 from ... import models
 
-router = APIRouter(
+router_profession = APIRouter(
     prefix='professions',
     tags='profession',
 )
 
 
-@router.get('/{profession_id}/', response_model=list(ProfessionSchemas))
+@router_profession.get('/{profession_id}/', response_model=list(ProfessionSchemas))
 def get_professions(profession_id: int, db: Session = Depends(get_db)):
     result = db.query(
         models.Profession
