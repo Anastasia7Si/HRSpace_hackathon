@@ -3,21 +3,6 @@ from sqlalchemy import Column, Integer, String, TIMESTAMP, Boolean, text, Foreig
 from sqlalchemy.orm import relationship
 
 
-# class ApplicationsCitiesOrm(Base):
-#     """Модель для связи ManyToMany."""
-#
-#     __tablename__ = "applications_cities"
-#     application_id = Column(Integer, ForeignKey('Application.id'), primary_key=True)
-#     city_id = Column(Integer, ForeignKey('City.id'), primary_key=True)
-
-
-# class ApplicationMetro(Base):
-#     __tablename__ = "ApplicationMetro"
-#     id = Column(Integer, primary_key=True, nullable=False)
-#     application_id = Column(Integer, ForeignKey('Application.id'), on_delete="CASCADE")
-#     metro_id = Column(Integer, ForeignKey('Metro.id'), on_delete="CASCADE")
-
-
 class CityOrm(Base):
     """Модель для списка Мест работы."""
 
@@ -26,20 +11,25 @@ class CityOrm(Base):
     region: str = Column(String, nullable=False)
     city: str = Column(String, nullable=False)
     applications = relationship('ApplicationOrm', back_populates='city')
+    metro = relationship('MetroOrm', back_populates='city')
 
 
 class Timezone(Base):
+    """Модель часовых поясов."""
+
     __tablename__ = 'Timezone'
     id: int = Column(Integer, primary_key=True, nullable=False)
     title: str = Column(String, nullable=False)
 
-# class MetroOrm(Base):
-#     """Модель для списка Мест работы."""
-#
-#     __tablename__ = "Metro"
-#     id = Column(Integer, primary_key=True, nullable=False)
-#     city = Column(String, nullable=False)
-#     metro = Column(String, nullable=False)
+
+class MetroOrm(Base):
+    """Модель для списка Метро."""
+
+    __tablename__ = 'Metro'
+    id = Column(Integer, primary_key=True, nullable=False)
+    metro = Column(String, nullable=False)
+    city_id = Column(Integer, ForeignKey('City.id'))
+    city = relationship('CityOrm', back_populates='metro')
 
 
 class Profession(Base):
