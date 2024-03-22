@@ -1,6 +1,14 @@
 from .database import Base
-from sqlalchemy import Column, Integer, String, TIMESTAMP, Boolean, text, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    TIMESTAMP,
+    Boolean,
+    text,
+    ForeignKey,
+    relationship
+)
 
 
 class CityOrm(Base):
@@ -38,17 +46,27 @@ class MetroOrm(Base):
 class ApplicationOrm(Base):
     """Модель Заявки(вакансии)."""
 
+    __tablename__ = "applications"
+    id = Column(Integer, primary_key=True, nullable=False)
+    number_of_employees = Column(Integer, nullable=True)
+    # payment_schema = Column(Integer, primary_key=True, nullable=False) # object of PaymentSchema
+    payment_amount = Column(Integer, nullable=False)
+    title = Column(String, nullable=True)
+    # description_emploey = Column(String, nullable=True) # поле для описания обязанностей сотрудника
+    # employee_requirements = Column(String, nullable=True) # поля для описания требований к сотруднику
+    # date_of_first_resume = жедаемая дата получения первых резюме
+    # date_of_first_workday = желаемя дата выхода сотрудника на работу
+    number_of_recruiters = Column(Integer, nullable=True)
     __tablename__ = 'Application'
     id: int = Column(Integer, primary_key=True, nullable=False)
     title: str = Column(String, nullable=False)
 
     # number_of_recruiters = Column(Integer, nullable=True)
     # recruiter_responsibilities = Column(Integer, primary_key=True, nullable=False) # object of RecruiterResponsibilities model
-    # experience = Column(String, nullable=True) # поле для опыта работы
-    # education = Column(String, nullable=True) # поле образование
-    # description_emploey = Column(String, nullable=True) # поле для описания обязанностей сотрудника
-    # employee_requirements = Column(String, nullable=True) # поля для описания требований к сотруднику
-    # skills = Column(String, nullable=True) # поле ключевые навыки
+    id_experience = Column(Integer, ForeignKey("experiences.id"), nullable=True) # поле для опыта работы
+    id_education = Column(Integer, ForeignKey("educations.id"), nullable=True) # поле образование
+    id_skills = Column(Integer, ForeignKey("skills.id"), nullable=True) # поле ключевые навыки
+    id_profession = Column(Integer, ForeignKey("professions.id"), nullable=True)
 
     # profession = Column(String, primary_key=True, nullable=False) # foreign key, object of profession model
     city_id: int = Column(Integer, ForeignKey('City.id'))
@@ -84,6 +102,7 @@ class WorkerExperience(Base):
 
     id = Column(Integer, primary_key=True, nullable=False)
     experience = Column(String, nullable=False)
+    applications = relationship("Application", backref="experience")
 
 
 class WorkerEducation(Base):
@@ -93,6 +112,7 @@ class WorkerEducation(Base):
 
     id = Column(Integer, primary_key=True, nullable=False)
     education = Column(String, nullable=False)
+    applications = relationship("Application", backref="education")
 
 
 class WorkerSlills(Base):
@@ -102,3 +122,4 @@ class WorkerSlills(Base):
 
     id = Column(Integer, primary_key=True, nullable=False)
     skills = Column(String, nullable=False)
+    applications = relationship("Application", backref="skills")
