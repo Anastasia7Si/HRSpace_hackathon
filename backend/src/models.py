@@ -77,6 +77,12 @@ class ApplicationOrm(Base):
     title: str = Column(String, nullable=False)
     # number_of_recruiters = Column(Integer, nullable=True)
     # recruiter_responsibilities = Column(Integer, primary_key=True, nullable=False) # object of RecruiterResponsibilities model
+    # experience = Column(String, nullable=True) # поле для опыта работы
+    # education = Column(String, nullable=True) # поле образование
+    # description_emploey = Column(String, nullable=True) # поле для описания обязанностей сотрудника
+    # employee_requirements = Column(String, nullable=True) # поля для описания требований к сотруднику
+    # skills = Column(String, nullable=True) # поле ключевые навыки
+
     # profession = Column(String, primary_key=True, nullable=False) # foreign key, object of profession model
     city_id: int = Column(Integer, ForeignKey('City.id'))
     relocation: bool = Column(Boolean, nullable=False, default=False)
@@ -99,3 +105,30 @@ class ApplicationOrm(Base):
     # is_moderated = Column(Boolean, server_default='FALSE') # прошла ли заявка модерацию, только после модерации можно оплатить заявку
     # is_paid = Column(Boolean, server_default='FALSE') # оплачена ли заявка, после оплаты попадает в список заявок для Рекрутеров
     # author = User
+
+
+class WorkerExperience(Base):
+    """Модель опыта работы"""
+
+    __tablename__ = "experiences"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    experience = Column(String, nullable=False)
+
+
+class WorkerEducation(Base):
+    """Модель образования"""
+
+    __tablename__ = "educations"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    education = Column(String, nullable=False)
+
+
+class WorkerSlills(Base):
+    """Модель ключевые навыки"""
+
+    __tablename__ = "skills"
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    skills = Column(String, nullable=False)
