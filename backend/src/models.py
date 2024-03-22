@@ -53,8 +53,8 @@ class Application(Base):
     # payment_schema = Column(Integer, primary_key=True, nullable=False) # object of PaymentSchema
     payment_amount = Column(Integer, nullable=False)
     title = Column(String, nullable=True)
-    # description_emploey = Column(String, nullable=True) # поле для описания обязанностей сотрудника
-    # employee_requirements = Column(String, nullable=True) # поля для описания требований к сотруднику
+    description_emploey = Column(String, nullable=True) # поле для описания обязанностей сотрудника
+    employee_requirements = Column(String, nullable=True) # поля для описания требований к сотруднику
     # date_of_first_resume = жедаемая дата получения первых резюме
     # date_of_first_workday = желаемя дата выхода сотрудника на работу
     number_of_recruiters = Column(Integer, nullable=True)
@@ -114,8 +114,7 @@ class WorkerSlills(Base):
 class AboutEmployer(Base):
     """Модель для работодателя"""
 
-    __tablename__ = "aboute_employer"
+    __tablename__ = "aboute_employers"
 
-    id = Column(Integer, primary_key=True, nullable=False)
     name_organization = Column(String, nullable=False)
     title = Column(String, nullable=False)

@@ -5,9 +5,9 @@ from ...database import get_db
 from .schemas import (
     EducationSchemas,
     EmploeyExperienceSchemas,
-    WorkerRequirementsSchemas,
-    WorkerSchemas,
-    WorkerSkills
+    WorkerSkills,
+    AboutEmployerSchemas,
+    DescriptionSchemas,
 )
 from ... import models
 
@@ -17,7 +17,10 @@ router_vacancy = APIRouter(
 )
 
 
-@router_vacancy.get('/{id_experience}/', response_model=list(EmploeyExperienceSchemas))
+@router_vacancy.get(
+    '/{id_experience}/',
+    response_model=list(EmploeyExperienceSchemas)
+)
 def get_worker_experience(id_experience: int, db: Session = Depends(get_db)):
     return db.query(
         models.WorkerExperience
@@ -36,3 +39,30 @@ def get_worker_skills(id_skills: id, db: Session = Depends(get_db)):
     return db.query(
         models.WorkerSlills
     ).filter(id_skills=id_skills).all()
+
+
+@router_vacancy.get('/aboute_employer', response_model=AboutEmployerSchemas)
+def get_aboute_emploer(db: Session = Depends(get_db)):
+    return db.query(models.AboutEmployer).all()
+
+
+@router_vacancy.get(
+    "/descriptions/",
+    response_model=DescriptionSchemas
+)
+def get_descriptions(application_id: int, db: Session = Depends(get_db)):
+    application = db.query(models.Application).all()
+    return {
+        "additional_conditions": application.description_emploey,
+        "bonuses": application.employee_requirements,
+    }
+
+
+@router_vacancy.get("/applications/")
+def get_application(db: Session = Depends(get_db)):
+
+    application = db.query(models.Application).all()
+    return {
+        "additional_conditions": application.additional_conditions,
+        "bonuses": application.bonuses,
+    }
