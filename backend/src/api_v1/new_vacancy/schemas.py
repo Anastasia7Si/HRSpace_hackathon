@@ -13,17 +13,19 @@ class EducationSchemas(BaseModel):
     education: str
 
 
-class WorkerSchemas(BaseModel):
-
-    description_emploey: str
-
-
 class WorkerSkills(BaseModel):
 
     id: int
     skills: str
 
 
-class WorkerRequirementsSchemas(BaseModel):
+class AboutEmployerSchemas(BaseModel):
 
+    name_organization: str
+    title: str
+
+
+class DescriptionSchemas(BaseModel):
+
+    description_emploey: str
     employee_requirements: str

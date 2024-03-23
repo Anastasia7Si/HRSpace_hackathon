@@ -5,9 +5,9 @@ from ...database import get_db
 from .schemas import (
     EducationSchemas,
     EmploeyExperienceSchemas,
-    WorkerRequirementsSchemas,
-    WorkerSchemas,
-    WorkerSkills
+    WorkerSkills,
+    AboutEmployerSchemas,
+    DescriptionSchemas,
 )
 from ... import models
 
@@ -36,3 +36,30 @@ def get_worker_skills(id_skills: int, db: Session = Depends(get_db)):
     return db.query(
         models.WorkerSlills
     ).filter(id_skills=id_skills).all()
+
+
+@router_vacancy.get('/aboute_employer', response_model=AboutEmployerSchemas)
+def get_aboute_emploer(db: Session = Depends(get_db)):
+    return db.query(models.AboutEmployer).all()
+
+
+@router_vacancy.get(
+    "/descriptions/",
+    response_model=DescriptionSchemas
+)
+def get_descriptions(application_id: int, db: Session = Depends(get_db)):
+    application = db.query(models.Application).all()
+    return {
+        "additional_conditions": application.description_emploey,
+        "bonuses": application.employee_requirements,
+    }
+
+
+@router_vacancy.get("/applications/")
+def get_application(db: Session = Depends(get_db)):
+
+    application = db.query(models.Application).all()
+    return {
+        "additional_conditions": application.additional_conditions,
+        "bonuses": application.bonuses,
+    }

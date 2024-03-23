@@ -5,7 +5,6 @@ from . import schemas
 from fastapi import APIRouter
 from ...database import get_db
 
-
 router = APIRouter(
     prefix='/applications',
     tags=['Applications']

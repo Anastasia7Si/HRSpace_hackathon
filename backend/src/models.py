@@ -52,8 +52,8 @@ class ApplicationOrm(Base):
     # payment_schema = Column(Integer, primary_key=True, nullable=False) # object of PaymentSchema
     payment_amount = Column(Integer, nullable=False)
     title = Column(String, nullable=True)
-    # description_emploey = Column(String, nullable=True) # поле для описания обязанностей сотрудника
-    # employee_requirements = Column(String, nullable=True) # поля для описания требований к сотруднику
+    description_emploey = Column(String, nullable=True) # поле для описания обязанностей сотрудника
+    employee_requirements = Column(String, nullable=True) # поля для описания требований к сотруднику
     # date_of_first_resume = жедаемая дата получения первых резюме
     # date_of_first_workday = желаемя дата выхода сотрудника на работу
     number_of_recruiters = Column(Integer, nullable=True)
@@ -63,6 +63,15 @@ class ApplicationOrm(Base):
 
     # number_of_recruiters = Column(Integer, nullable=True)
     # recruiter_responsibilities = Column(Integer, primary_key=True, nullable=False) # object of RecruiterResponsibilities model
+    id_experience = Column(Integer, ForeignKey("experiences.id"), nullable=True) # внешний ключ для поле для опыта работы
+    id_education = Column(Integer, ForeignKey("educations.id"), nullable=True) # внешний ключ для поле образование
+    id_skills = Column(Integer, ForeignKey("skills.id"), nullable=True) # внешний ключ для поле ключевые навыки
+    id_profession = Column(Integer, ForeignKey("professions.id"), nullable=True) # внешний ключ для поля профессий
+    additional_conditions = Column(String, nullable=True)
+    bonuses = Column(String, nullable=True)
+
+    # city = Column(String, nullable=True) # many to many, object of city model
+    salary = Column(Integer, nullable=True)
     id_experience = Column(Integer, ForeignKey("experiences.id"), nullable=True) # поле для опыта работы
     id_education = Column(Integer, ForeignKey("educations.id"), nullable=True) # поле образование
     id_skills = Column(Integer, ForeignKey("skills.id"), nullable=True) # поле ключевые навыки
@@ -123,3 +132,12 @@ class WorkerSlills(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     skills = Column(String, nullable=False)
     applications = relationship("Application", backref="skills")
+
+
+class AboutEmployer(Base):
+    """Модель для работодателя"""
+
+    __tablename__ = "aboute_employers"
+
+    name_organization = Column(String, nullable=False)
+    title = Column(String, nullable=False)
