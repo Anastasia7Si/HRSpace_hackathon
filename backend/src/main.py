@@ -19,6 +19,7 @@ app = FastAPI(
     }
 )
 
+
 app.include_router(application_router.router)
 app.include_router(vacancy_router.router)
 app.include_router(vacancy_profession.router)

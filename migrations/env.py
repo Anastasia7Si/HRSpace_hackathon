@@ -13,10 +13,11 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from backend.src.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 from backend.src.database import Base
-from backend.src.models import (CityOrm, Profession, Timezone, Profession,
+from backend.src.models import (CityOrm, Timezone, MetroOrm,
+                                ApplicationOrm, WorkerExperience,
+                                WorkerEducation, Profession,
                                 PaymentSchema, RecruiterResponsibilities,
-                                ApplicationOrm, WorkerExperience, WorkerEducation,
-                                WorkerSlills)
+                                WorkerSlills, AboutEmployer)
 
 config = context.config
 

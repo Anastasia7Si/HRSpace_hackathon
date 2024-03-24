@@ -38,12 +38,12 @@ def get_worker_skills(id_skills: int, db: Session = Depends(get_db)):
     ).filter(id_skills=id_skills).all()
 
 
-@router_vacancy.get('/aboute_employer', response_model=AboutEmployerSchemas)
+@router.get('/aboute_employer', response_model=AboutEmployerSchemas)
 def get_aboute_emploer(db: Session = Depends(get_db)):
     return db.query(models.AboutEmployer).all()
 
 
-@router_vacancy.get(
+@router.get(
     "/descriptions/",
     response_model=DescriptionSchemas
 )
@@ -55,10 +55,10 @@ def get_descriptions(application_id: int, db: Session = Depends(get_db)):
     }
 
 
-@router_vacancy.get("/applications/")
+@router.get("/applications/")
 def get_application(db: Session = Depends(get_db)):
 
-    application = db.query(models.Application).all()
+    application = db.query(models.ApplicationOrm).all()
     return {
         "additional_conditions": application.additional_conditions,
         "bonuses": application.bonuses,

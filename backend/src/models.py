@@ -1,14 +1,13 @@
-from .database import Base
 from sqlalchemy import (
     Column,
     Integer,
     String,
-    TIMESTAMP,
     Boolean,
-    text,
-    ForeignKey,
-    relationship
+    ForeignKey
 )
+from sqlalchemy.orm import relationship
+
+from .database import Base
 
 
 class CityOrm(Base):
@@ -43,65 +42,88 @@ class MetroOrm(Base):
     applications = relationship('ApplicationOrm', back_populates='metro')
 
 
+class Profession(Base):
+    """Модель для списка Профессий."""
+
+    __tablename__ = "professions"
+    id = Column(Integer, primary_key=True, nullable=False)
+    title = Column(String, nullable=False)
+    applications = relationship("Applications", backref="professions")
+
+
+class PaymentSchema(Base):
+    """Модель для списка Схем оплат."""
+
+    __tablename__ = "payment_schemas"
+    id = Column(Integer, primary_key=True, nullable=False)
+    title = Column(String, nullable=False)
+
+
+class RecruiterResponsibilities(Base):
+    """Модель Обязанностей рекрутера."""
+
+    __tablename__ = "recruiter_responsibilities"
+    id = Column(Integer, primary_key=True, nullable=False)
+    responsibility = Column(String, nullable=False)
+
+
 class ApplicationOrm(Base):
     """Модель Заявки(вакансии)."""
 
-    __tablename__ = "applications"
+    __tablename__ = "Applications"
+
     id = Column(Integer, primary_key=True, nullable=False)
     number_of_employees = Column(Integer, nullable=True)
-    # payment_schema = Column(Integer, primary_key=True, nullable=False) # object of PaymentSchema
     payment_amount = Column(Integer, nullable=False)
     title = Column(String, nullable=True)
-    description_emploey = Column(String, nullable=True) # поле для описания обязанностей сотрудника
-    employee_requirements = Column(String, nullable=True) # поля для описания требований к сотруднику
-    # date_of_first_resume = жедаемая дата получения первых резюме
-    # date_of_first_workday = желаемя дата выхода сотрудника на работу
+    description_emploey = Column(String, nullable=True)
+    employee_requirements = Column(String, nullable=True)
     number_of_recruiters = Column(Integer, nullable=True)
-    __tablename__ = 'Application'
-    id: int = Column(Integer, primary_key=True, nullable=False)
-    title: str = Column(String, nullable=False)
-
-    # number_of_recruiters = Column(Integer, nullable=True)
-    # recruiter_responsibilities = Column(Integer, primary_key=True, nullable=False) # object of RecruiterResponsibilities model
-    id_experience = Column(Integer, ForeignKey("experiences.id"), nullable=True) # внешний ключ для поле для опыта работы
-    id_education = Column(Integer, ForeignKey("educations.id"), nullable=True) # внешний ключ для поле образование
-    id_skills = Column(Integer, ForeignKey("skills.id"), nullable=True) # внешний ключ для поле ключевые навыки
-    id_profession = Column(Integer, ForeignKey("professions.id"), nullable=True) # внешний ключ для поля профессий
+    id_experience = Column(
+        Integer, ForeignKey("experiences.id"), nullable=True
+        )
+    id_education = Column(
+        Integer, ForeignKey("educations.id"), nullable=True
+        )
+    id_skills = Column(
+        Integer, ForeignKey("skills.id"), nullable=True
+        )
+    id_profession = Column(
+        Integer, ForeignKey("professions.id"), nullable=True
+        )
     additional_conditions = Column(String, nullable=True)
     bonuses = Column(String, nullable=True)
-
-    # city = Column(String, nullable=True) # many to many, object of city model
     salary = Column(Integer, nullable=True)
-    id_experience = Column(Integer, ForeignKey("experiences.id"), nullable=True) # поле для опыта работы
-    id_education = Column(Integer, ForeignKey("educations.id"), nullable=True) # поле образование
-    id_skills = Column(Integer, ForeignKey("skills.id"), nullable=True) # поле ключевые навыки
-    id_profession = Column(Integer, ForeignKey("professions.id"), nullable=True)
-
-    # profession = Column(String, primary_key=True, nullable=False) # foreign key, object of profession model
+    id_experience = Column(
+        Integer, ForeignKey("experiences.id"), nullable=True
+        )
+    id_education = Column(
+        Integer, ForeignKey("educations.id"), nullable=True
+        )
+    id_skills = Column(
+        Integer, ForeignKey("skills.id"), nullable=True
+        )
+    id_profession = Column(
+        Integer, ForeignKey("professions.id"), nullable=True
+        )
     city_id: int = Column(Integer, ForeignKey('City.id'))
-    metro_id: int = Column(Integer,ForeignKey('Metro.id'))
+    metro_id: int = Column(Integer, ForeignKey('Metro.id'))
     relocation: bool = Column(Boolean, nullable=False, default=False)
     remote_work: bool = Column(Boolean, nullable=False, default=False)
-    timezone_from_id: int = Column(Integer, ForeignKey('Timezone.id'), nullable=True)
-    timezone_to_id: int = Column(Integer, ForeignKey('Timezone.id'), nullable=True)
-
+    timezone_from_id: int = Column(
+        Integer, ForeignKey('Timezone.id'), nullable=True
+        )
+    timezone_to_id: int = Column(
+        Integer, ForeignKey('Timezone.id'), nullable=True
+        )
     city = relationship('CityOrm', back_populates='applications')
     metro = relationship('MetroOrm', back_populates='applications')
-    timezone_from = relationship('Timezone', foreign_keys='[ApplicationOrm.timezone_from_id]')
-    timezone_to = relationship('Timezone', foreign_keys='[ApplicationOrm.timezone_to_id]')
-
-    # salary = Column(Integer, nullable=True)
-    # work_schedule = рабочий график, непонятен тип поля, но тоже объект какой-то модели
-    # type_of_employment = Column(String, nullable=True) # object of employment model (full-time, part-time)
-    # responsibilities = Column(String, nullable=True)
-    # requirements = Column(String, nullable=True)
-    # stop_list = Column(String, nullable=True)
-
-    # created_at = Column(TIMESTAMP(timezone=True), server_default=text('now()'))
-    # is_published = Column(Boolean, server_default='FALSE') # может переделать в "статус", типа "на модерации", "размещено", "выполнена"
-    # is_moderated = Column(Boolean, server_default='FALSE') # прошла ли заявка модерацию, только после модерации можно оплатить заявку
-    # is_paid = Column(Boolean, server_default='FALSE') # оплачена ли заявка, после оплаты попадает в список заявок для Рекрутеров
-    # author = User
+    timezone_from = relationship(
+        'Timezone', foreign_keys='[ApplicationOrm.timezone_from_id]'
+        )
+    timezone_to = relationship(
+        'Timezone', foreign_keys='[ApplicationOrm.timezone_to_id]'
+        )
 
 
 class WorkerExperience(Base):
@@ -139,5 +161,6 @@ class AboutEmployer(Base):
 
     __tablename__ = "aboute_employers"
 
+    id = Column(Integer, primary_key=True, nullable=False)
     name_organization = Column(String, nullable=False)
     title = Column(String, nullable=False)
