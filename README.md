@@ -7,6 +7,9 @@
 - [Никита Лоскутов](https://github.com/ragecodemode)
 - [Анастасия Пушкарная](https://github.com/Anastasia7Si)
 
+[## Ссылка на архив](https://disk.yandex.ru/d/WgLLXSWMLd6sZw)
+[## Ссылка на скриншоты документации](https://disk.yandex.ru/d/lP5prio0tqjktQ)
+
 <div id="header" align="center">
   <img src="https://img.shields.io/badge/Python-3.11-F8F8FF?style=for-the-badge&logo=python&logoColor=white">
   <img src="https://img.shields.io/badge/FastAPI-0.104.1-F8F8FF?style=for-the-badge&logo=FastAPI&logoColor=white">
