@@ -1,9 +1,10 @@
-from fastapi import Depends, status, Query
+from fastapi import APIRouter, Depends, status, Query
 from sqlalchemy.orm import Session
-from ... import models
+
+from backend.src import models
+from backend.src.database import get_db
 from . import schemas
-from fastapi import APIRouter
-from ...database import get_db
+
 
 router = APIRouter(
     prefix='/vacancy',
@@ -11,7 +12,7 @@ router = APIRouter(
 )
 
 
-@router.get('/city', response_model=None)
+@router.get('/city', response_model=list[schemas.CityGet])
 def get_city(db: Session = Depends(get_db),
              search: str = Query(None, description="Поисковый запрос")):
     query = db.query(models.CityOrm)

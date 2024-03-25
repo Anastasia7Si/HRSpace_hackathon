@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-
+from backend.src import models
+from backend.src.database import get_db
 from .schemas import ProfessionSchemas
-from ...database import get_db
-from ... import models
 
 router = APIRouter(
     prefix='/professions',
@@ -12,11 +11,11 @@ router = APIRouter(
 )
 
 
-@router.get('/{profession_id}/', response_model=list[ProfessionSchemas])
+@router.get('/{profession_id}/', response_model=ProfessionSchemas)
 def get_professions(profession_id: int, db: Session = Depends(get_db)):
     result = db.query(
         models.Profession
-    ).filter(profession_id=profession_id).all()
+    ).filter(models.Profession.id == profession_id).all()
     if result is None:
         raise HTTPException(
             f'Выбранной {result} профессие нет в списке, выберете другую!'

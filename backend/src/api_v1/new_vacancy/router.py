@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from ...database import get_db
 from .schemas import (
     EducationSchemas,
-    EmploeyExperienceSchemas,
+    EmployeeExperienceSchemas,
     WorkerSkills,
     AboutEmployerSchemas,
     DescriptionSchemas,
@@ -17,25 +17,26 @@ router = APIRouter(
 )
 
 
-@router.get('/{id_experience}/', response_model=list[EmploeyExperienceSchemas])
+@router.get('/{id_experience}/',
+            response_model=list[EmployeeExperienceSchemas])
 def get_worker_experience(id_experience: int, db: Session = Depends(get_db)):
     return db.query(
         models.WorkerExperience
-    ).filter(id_experience=id_experience).all()
+    ).filter(models.WorkerExperience.id == id_experience).all()
 
 
 @router.get('/{id_education}/', response_model=list[EducationSchemas])
 def get_worker_education(id_education: int, db: Session = Depends(get_db)):
     return db.query(
         models.WorkerEducation
-    ).filter(id_education=id_education).all()
+    ).filter(models.WorkerEducation.id == id_education).all()
 
 
 @router.get('/{id_skills}/', response_model=list[WorkerSkills])
 def get_worker_skills(id_skills: int, db: Session = Depends(get_db)):
     return db.query(
-        models.WorkerSlills
-    ).filter(id_skills=id_skills).all()
+        models.WorkerSkills
+    ).filter(models.WorkerSkills.id == id_skills).all()
 
 
 @router.get('/aboute_employer', response_model=AboutEmployerSchemas)
@@ -48,7 +49,8 @@ def get_aboute_emploer(db: Session = Depends(get_db)):
     response_model=DescriptionSchemas
 )
 def get_descriptions(application_id: int, db: Session = Depends(get_db)):
-    application = db.query(models.Application).all()
+    application = db.query(models.ApplicationOrm).filter(
+        models.ApplicationOrm.id == application_id).all()
     return {
         "additional_conditions": application.description_emploey,
         "bonuses": application.employee_requirements,

@@ -17,7 +17,7 @@ from backend.src.models import (CityOrm, Timezone, MetroOrm,
                                 ApplicationOrm, WorkerExperience,
                                 WorkerEducation, Profession,
                                 PaymentSchema, RecruiterResponsibilities,
-                                WorkerSlills, AboutEmployer)
+                                WorkerSkills, AboutEmployer)
 
 config = context.config
 

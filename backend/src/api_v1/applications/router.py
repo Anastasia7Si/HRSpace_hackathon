@@ -1,9 +1,9 @@
-from fastapi import Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
-from ... import models
+
+from backend.src import models
+from backend.src.database import get_db
 from . import schemas
-from fastapi import APIRouter, HTTPException
-from ...database import get_db
 
 router = APIRouter(
     prefix='/applications',
@@ -23,7 +23,7 @@ def test_application(db: Session = Depends(get_db)):
 def create_application(application_create: schemas.ApplicationCreate,
                        db: Session = Depends(get_db)):
 
-    new_application = models.ApplicationOrm(**application_create.dict())
+    new_application = models.ApplicationOrm(**application_create.model_dump())
     city = db.query(models.CityOrm).get(new_application.city_id)
     metro = db.query(models.MetroOrm).get(new_application.metro_id)
     if city.id != metro.city_id:

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class EmploeyExperienceSchemas(BaseModel):
+class EmployeeExperienceSchemas(BaseModel):
 
     id: int
     experience: str
